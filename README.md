@@ -26,9 +26,9 @@ setuptools        66.1.1
 ```
 #!/bin/bash
 # Install the required packages
-sudo apt update
+apt update
 apt install git -y 
-sudo apt install -y python3-pip python3-venv
+apt install -y python3-pip python3-venv
 
 git clone https://github.com/hoanghd164/pve_custom_exporter.git
 cd pve_custom_exporter
@@ -69,15 +69,15 @@ WantedBy=multi-user.target
 OEF
 
 # Enable and start the service
-sudo systemctl daemon-reload
-sudo systemctl restart pve_custom_metrics
-sudo systemctl enable pve_custom_metrics
-sudo systemctl status pve_custom_metrics
+systemctl daemon-reload
+systemctl restart pve_custom_metrics
+systemctl enable pve_custom_metrics
+systemctl status pve_custom_metrics
 
 # # To update the script
 # cp ./pve_custom_metrics.py /opt/pve_custom_metrics/source
-# sudo systemctl restart pve_custom_metrics
-# sudo systemctl status pve_custom_metrics
+# systemctl restart pve_custom_metrics
+# systemctl status pve_custom_metrics
 ```
 
 **Chúc các bạn thành công**
