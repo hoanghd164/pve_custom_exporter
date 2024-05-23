@@ -219,7 +219,7 @@ class CPUSocketSize:
             
 class DiskInfo:
     metrics = {
-        'disk_info': Gauge('pve_custom_disk_info', 'Description of gauge', ['instance', 'node', 'filesystem', 'size', 'used', 'avail', 'mounted'])
+        'disk_info': Gauge('pve_custom_disk_info', 'Description of gauge', ['instance', 'node', 'filesystem', 'mounted'])
     }
 
     def __init__(self, node, instance):
@@ -238,7 +238,7 @@ class DiskInfo:
             result_list.append(entry)
 
         for entry in result_list:
-            self.metrics['disk_info'].labels(instance=self.instance, node=self.node, filesystem=entry['Filesystem'], size=entry['Size'], used=entry['Used'], avail=entry['Avail'], mounted=entry['Mounted']).set(float(entry['Use%'].strip('%')))
+            self.metrics['disk_info'].labels(instance=self.instance, node=self.node, filesystem=entry['Filesystem'], mounted=entry['Mounted']).set(float(entry['Use%'].strip('%')))
 
 class NodeMemorySize:
     metrics = {

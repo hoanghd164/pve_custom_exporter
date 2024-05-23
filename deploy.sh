@@ -4,35 +4,27 @@ apt update
 apt install git -y 
 apt install -y python3-pip python3-venv
 
-git clone https://github.com/hoanghd164/pve_custom_exporter.git
-cd pve_custom_exporter
+folder_name="pve_custom_exporter"
 
 # Create the directory
 mkdir -p /opt
+git clone https://github.com/hoanghd164/pve_custom_exporter.git /opt/${folder_name}/source
+cd ${folder_name}
 
 # Create the virtual environment
-python3 -m venv /opt/pve_custom_metrics
-mkdir /opt/pve_custom_metrics/source
-
-# Copy the script and requirements
-cp ./pve_custom_metrics.py /opt/pve_custom_metrics/source
-cp ./requirements.txt /opt/pve_custom_metrics/source
+python3 -m venv /opt/${folder_name}
 
 # Install the required packages
-cd /opt
-/opt/pve_custom_metrics/bin/python -m pip install -r /opt/pve_custom_metrics/source/requirements.txt
-
-# # Test the script
-# cd /opt/pve_custom_metrics/bin/python && /opt/pve_custom_metrics/source/pve_custom_metrics.py
+/opt/${folder_name}/bin/python -m pip install -r /opt/${folder_name}/source/requirements.txt
 
 # Create a systemd service
-cat > /etc/systemd/system/pve_custom_metrics.service << 'OEF'
+cat > /etc/systemd/system/${folder_name}.service << OEF
 [Unit]
 Description=PVE Custom Metrics Service
 After=network.target
 
 [Service]
-ExecStart=/opt/pve_custom_metrics/bin/python /opt/pve_custom_metrics/source/pve_custom_metrics.py
+ExecStart=/opt/${folder_name}/bin/python /opt/${folder_name}/source/run.py
 Restart=always
 User=root
 Group=root
@@ -44,11 +36,6 @@ OEF
 
 # Enable and start the service
 systemctl daemon-reload
-systemctl restart pve_custom_metrics
-systemctl enable pve_custom_metrics
-systemctl status pve_custom_metrics
-
-# # To update the script
-# cp ./pve_custom_metrics.py /opt/pve_custom_metrics/source
-# systemctl restart pve_custom_metrics
-# systemctl status pve_custom_metrics
+systemctl restart ${folder_name}
+systemctl enable ${folder_name}
+systemctl status ${folder_name}
